@@ -31,8 +31,10 @@ public struct SafariView {
     
     /// A configuration object that defines how a Safari view controller should be initialized.
     public typealias Configuration = SFSafariViewController.Configuration
+    #if !os(xrOS)
     public typealias DismissButtonStyle = SFSafariViewController.DismissButtonStyle
-    
+    #endif
+
     // MARK: Representation Properties
     
     let url: URL
@@ -57,8 +59,10 @@ public struct SafariView {
     
     var preferredBarTintColor: UIColor?
     var preferredControlTintColor: UIColor?
+    #if !os(xrOS)
     var dismissButtonStyle: DismissButtonStyle = .done
-    
+    #endif
+
     // There is a bug on Xcode 12.0 (Swift 5.3.0) where `UIColor.init(_ color: Color)` is missing for Mac Catalyst target.
     #if compiler(>=5.3.1) || (compiler(>=5.3) && !targetEnvironment(macCatalyst))
     
@@ -132,7 +136,8 @@ public struct SafariView {
         modified.preferredControlTintColor = color
         return modified
     }
-    
+
+    #if !os(xrOS)
     /// Sets the style of dismiss button to use in the navigation bar to close `SafariView`.
     ///
     /// The default value is `.done`, which makes the button title the localized
@@ -148,13 +153,16 @@ public struct SafariView {
         modified.dismissButtonStyle = style
         return modified
     }
-    
+    #endif
+
     // MARK: Modification Applier
     
     func applyModification(to safariViewController: SFSafariViewController) {
+        #if !os(xrOS)
         safariViewController.preferredBarTintColor = self.preferredBarTintColor
         safariViewController.preferredControlTintColor = self.preferredControlTintColor
         safariViewController.dismissButtonStyle = self.dismissButtonStyle
+        #endif
     }
 }
 
@@ -162,7 +170,9 @@ public extension SafariView.Configuration {
     convenience init(entersReaderIfAvailable: Bool = false, barCollapsingEnabled: Bool = true) {
         self.init()
         self.entersReaderIfAvailable = entersReaderIfAvailable
+        #if !os(xrOS)
         self.barCollapsingEnabled = barCollapsingEnabled
+        #endif
     }
 }
 

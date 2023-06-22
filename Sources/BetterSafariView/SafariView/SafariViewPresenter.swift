@@ -29,8 +29,7 @@ struct SafariViewPresenter<Item: Identifiable>: UIViewRepresentable {
 }
 
 extension SafariViewPresenter {
-    
-    class Coordinator: NSObject, SFSafariViewControllerDelegate {
+    class Coordinator: NSObject {
         
         // MARK: Parent Copying
         
@@ -77,7 +76,6 @@ extension SafariViewPresenter {
         private func presentSafariViewController(with item: Item) {
             let representation = parent.representationBuilder(item)
             let safariViewController = SFSafariViewController(url: representation.url, configuration: representation.configuration)
-            safariViewController.delegate = self
             representation.applyModification(to: safariViewController)
             
             // Present a Safari view controller from the `viewController` of `UIViewRepresentable`, instead of `UIViewControllerRepresentable`.
